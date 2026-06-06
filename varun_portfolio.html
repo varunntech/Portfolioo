@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Varun Singh – Data Analyst Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #08080D;
+    --bg2: #0F0F17;
+    --bg3: #16161F;
+    --border: #1E1E2E;
+    --cyan: #00D4FF;
+    --green: #00FF88;
+    --purple: #A855F7;
+    --orange: #FF6B35;
+    --text: #F0F0FF;
+    --muted: #52526B;
+    --card: #10101A;
+    --font: 'Syne', sans-serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  html, body { height: 100%; overflow: hidden; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); }
+  a { color: inherit; text-decoration: none; }
+
+  /* ── LAYOUT ── */
+  #shell { display: flex; flex-direction: column; height: 100vh; width: 100%; }
+
+  /* ── TOP HEADER ── */
+  #header {
+    height: 70px;
+    min-height: 70px;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    position: relative;
+    z-index: 10;
+  }
+  .logo-mark {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .logo-mark span { color: var(--muted); }
+  nav ul { list-style: none; display: flex; flex-direction: row; gap: 8px; }
+  nav ul li a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  nav ul li a:hover { color: var(--text); background: var(--bg3); }
+  nav ul li a.active {
+    color: var(--cyan);
+    background: rgba(0, 212, 255, 0.07);
+    border-color: rgba(0, 212, 255, 0.15);
+  }
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  nav ul li a.active .nav-dot {
+    background: var(--cyan);
+    box-shadow: 0 0 6px var(--cyan);
+  }
+  .nav-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  nav ul li a.active .nav-num { color: var(--cyan); }
+
+  /* ── BOTTOM STATUS BAR (FOOTER) ── */
+  #footer {
+    height: 40px;
+    min-height: 40px;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    position: relative;
+    z-index: 10;
+  }
+  .footer-status {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .footer-links { display: flex; gap: 10px; }
+  .slink {
+    padding: 4px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .slink:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── MAIN CONTENT ── */
+  #main { flex: 1; overflow: hidden; position: relative; }
+  .page {
+    position: absolute;
+    inset: 0;
+    overflow-y: auto;
+    padding: 60px 64px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(16px);
+    transition: opacity 0.4s, transform 0.4s;
+  }
+  .page.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+
+  /* ── GRID BACKGROUND ── */
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 40px 40px;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  /* ── HOME PAGE ── */
+  #page-home { justify-content: center; display: flex; flex-direction: column; }
+  .home-inner { max-width: 700px; padding-top: 40px; position: relative; z-index: 1; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--cyan); }
+  .hero-name {
+    font-size: clamp(52px, 7vw, 88px);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .hero-name .line1 { display: block; }
+  .hero-name .line2 { display: block; color: var(--purple); }
+  .typewriter-wrap {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--muted);
+    margin-bottom: 40px;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+  }
+  .typed-text { color: var(--cyan); }
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 20px;
+    background: var(--cyan);
+    margin-left: 2px;
+    animation: blink 0.7s step-end infinite;
+    vertical-align: middle;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .home-desc {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 520px;
+    margin-bottom: 48px;
+  }
+  .home-desc strong { color: var(--text); }
+  .home-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 60px; }
+  .btn-main {
+    padding: 13px 28px;
+    background: var(--cyan);
+    color: var(--bg);
+    border: none;
+    font-family: var(--font);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s;
+  }
+  .btn-main:hover { background: #33DDFF; transform: translateY(-1px); }
+  .btn-sec {
+    padding: 13px 28px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: transparent;
+    font-family: var(--font);
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.2s;
+  }
+  .btn-sec:hover { border-color: var(--cyan); color: var(--cyan); }
+
+  .stats-row {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .stat {
+    flex: 1;
+    padding: 20px 24px;
+    border-right: 1px solid var(--border);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-n { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; color: var(--text); }
+  .stat-l {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* ── ABOUT PAGE ── */
+  .page-title { font-size: 36px; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .page-sub { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-bottom: 48px; letter-spacing: 0.06em; }
+  .about-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .about-bio p { font-size: 14px; color: var(--muted); line-height: 1.85; margin-bottom: 14px; }
+  .about-bio strong { color: var(--text); }
+  .edu-stack { display: flex; flex-direction: column; gap: 12px; }
+  .ecard {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    border-left: 3px solid var(--cyan);
+    transition: border-color 0.2s;
+  }
+  .ecard.g { border-left-color: var(--green); }
+  .ecard.p { border-left-color: var(--purple); }
+  .ecard:hover { border-color: var(--cyan); }
+  .etag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .tc { background: rgba(0, 212, 255, 0.1); color: var(--cyan); }
+  .tg { background: rgba(0, 255, 136, 0.1); color: var(--green); }
+  .tp { background: rgba(168, 85, 247, 0.1); color: var(--purple); }
+  .edeg { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+  .esub { font-family: var(--mono); font-size: 11px; color: var(--muted); }
+
+  /* ── SKILLS PAGE ── */
+  .skills-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .sk-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .sk-card:hover { border-color: rgba(0, 212, 255, 0.3); transform: translateY(-2px); }
+  .sk-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .sk-ico {
+    width: 38px;
+    height: 38px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+  .ic1 { background: rgba(0, 212, 255, 0.1); color: var(--cyan); }
+  .ic2 { background: rgba(0, 255, 136, 0.1); color: var(--green); }
+  .ic3 { background: rgba(168, 85, 247, 0.1); color: var(--purple); }
+  .ic4 { background: rgba(255, 107, 53, 0.1); color: var(--orange); }
+  .sk-name { font-size: 15px; font-weight: 700; }
+  .sk-pct { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .sk-desc { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+  .sk-bar { height: 2px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .sk-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1s ease 0.2s; }
+  .f1 { background: var(--cyan); }
+  .f2 { background: var(--green); }
+  .f3 { background: var(--purple); }
+  .f4 { background: var(--orange); }
+
+  /* ── PROJECTS PAGE ── */
+  .proj-grid { display: flex; flex-direction: column; gap: 0; }
+  .prow {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    gap: 20px;
+    align-items: center;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .prow:first-child { border-top: 1px solid var(--border); }
+  .prow:hover { background: rgba(255, 255, 255, 0.01); }
+  .pnum { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+  .pname { font-size: 17px; font-weight: 700; margin-bottom: 5px; }
+  .pdesc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 10px; }
+  .ptags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .ptag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .plive {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--cyan);
+    padding: 8px 14px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 4px;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .plive:hover { background: var(--cyan); color: var(--bg); }
+  .psoon { font-family: var(--mono); font-size: 10px; color: var(--muted); }
+
+  /* ── CONTACT PAGE ── */
+  .contact-big {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .contact-big span { color: var(--cyan); }
+  .contact-note {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 480px;
+  }
+  .clinks { display: flex; flex-direction: column; gap: 12px; max-width: 420px; }
+  .clink {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    color: var(--text);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .clink:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0, 212, 255, 0.04); }
+  .clink i { font-size: 18px; color: var(--cyan); }
+  .clink-sub { font-family: var(--mono); font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── NOISE OVERLAY ── */
+  .noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    #header {
+      height: auto;
+      min-height: 60px;
+      padding: 12px 20px;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      text-align: center;
+    }
+    .logo-mark { margin-right: 0; }
+    nav ul { flex-wrap: wrap; justify-content: center; gap: 2px; }
+    nav ul li a { padding: 6px 10px; font-size: 11px; }
+    .nav-num { display: none; }
+    #footer { display: none; }
+    .page { padding: 32px 24px; }
+    .about-cols { grid-template-columns: 1fr; }
+    .skills-2col { grid-template-columns: 1fr; }
+    .prow { grid-template-columns: 36px 1fr; }
+    .plive, .psoon { display: none; }
+    .hero-name { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="noise" aria-hidden="true"></div>
+
+<div id="shell">
+
+  <!-- HEADER -->
+  <header id="header">
+    <div class="logo-mark"><span>~/</span>varun.singh</div>
+    <nav>
+      <ul>
+        <li><a href="#" class="active" data-page="home">
+          <span class="nav-dot"></span> home <span class="nav-num">01</span>
+        </a></li>
+        <li><a href="#" data-page="about">
+          <span class="nav-dot"></span> about <span class="nav-num">02</span>
+        </a></li>
+        <li><a href="#" data-page="skills">
+          <span class="nav-dot"></span> skills <span class="nav-num">03</span>
+        </a></li>
+        <li><a href="#" data-page="projects">
+          <span class="nav-dot"></span> projects <span class="nav-num">04</span>
+        </a></li>
+        <li><a href="#" data-page="contact">
+          <span class="nav-dot"></span> contact <span class="nav-num">05</span>
+        </a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- MAIN -->
+  <main id="main">
+
+    <!-- HOME PAGE -->
+    <div class="page active" id="page-home">
+      <div class="grid-bg" aria-hidden="true"></div>
+      <div class="home-inner">
+        <div class="eyebrow">available for opportunities</div>
+        <h1 class="hero-name">
+          <span class="line1">Varun</span>
+          <span class="line2">Singh.</span>
+        </h1>
+        <div class="typewriter-wrap">
+          <span class="typed-text" id="typed"></span><span class="cursor"></span>
+        </div>
+        <p class="home-desc">
+          BCA graduate from <strong>School of Management Sciences, Varanasi</strong> &nbsp;·&nbsp;
+          pursuing MCA in Data Science at <strong>Chandigarh University, Mohali</strong> (2026)
+          &nbsp;·&nbsp; building real-world data solutions and web apps that actually ship.
+        </p>
+        <div class="home-actions">
+          <button class="btn-main" onclick="navigate('projects')">view my work</button>
+          <button class="btn-sec" onclick="navigate('contact')">get in touch</button>
+        </div>
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-n" style="color:var(--cyan)">BCA</div>
+            <div class="stat-l">degree · 2026</div>
+          </div>
+          <div class="stat">
+            <div class="stat-n">MCA</div>
+            <div class="stat-l">starting 2026</div>
+          </div>
+          <div class="stat">
+            <div class="stat-n" style="color:var(--green)">1+</div>
+            <div class="stat-l">live projects</div>
+          </div>
+          <div class="stat">
+            <div class="stat-n" style="color:var(--purple)">5</div>
+            <div class="stat-l">core skills</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div class="page" id="page-about">
+      <h2 class="page-title">About me</h2>
+      <p class="page-sub">// who i am &amp; where i'm headed</p>
+      <div class="about-cols">
+        <div class="about-bio">
+          <p>Hey — I'm <strong>Varun Singh</strong>, a data enthusiast building my path toward becoming a professional Data Analyst. I completed my <strong>BCA from School of Management Sciences, Varanasi</strong> (2023–26) and I'm heading to <strong>Chandigarh University, Mohali</strong> for my MCA in Data Science starting 2026.</p>
+          <p>I love turning messy, raw data into clear stories that drive decisions. My first live product — <strong>Gastric Care</strong> — is already deployed and running in production, which tells you I'm not just learning theory; I'm shipping things.</p>
+          <p>I'm currently evaluating the best offline Data Analyst coaching institutes in Mohali to accelerate my practical skills alongside my MCA — because real-world training matters as much as academia.</p>
+        </div>
+        <div class="edu-stack">
+          <div class="ecard g">
+            <span class="etag tg">completed · 2023–26</span>
+            <div class="edeg">BCA – Computer Applications</div>
+            <div class="esub">School of Management Sciences, Varanasi</div>
+          </div>
+          <div class="ecard">
+            <span class="etag tc">starting 2026</span>
+            <div class="edeg">MCA – Data Science</div>
+            <div class="esub">Chandigarh University, Mohali</div>
+          </div>
+          <div class="ecard p">
+            <span class="etag tp">enrolling soon · Mohali</span>
+            <div class="edeg">Data Analyst Certification</div>
+            <div class="esub">Offline professional training (in evaluation)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILLS PAGE -->
+    <div class="page" id="page-skills">
+      <h2 class="page-title">Skills &amp; tools</h2>
+      <p class="page-sub">// what i work with</p>
+      <div class="skills-2col">
+        <div class="sk-card">
+          <div class="sk-top">
+            <div class="sk-ico ic1">🐍</div>
+            <div>
+              <div class="sk-name">Python</div>
+              <div class="sk-pct">75% proficiency</div>
+            </div>
+          </div>
+          <p class="sk-desc">Data wrangling, EDA &amp; automation with pandas, NumPy, matplotlib, and seaborn.</p>
+          <div class="sk-bar"><div class="sk-fill f1" data-w="75"></div></div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-top">
+            <div class="sk-ico ic2">🗄</div>
+            <div>
+              <div class="sk-name">SQL</div>
+              <div class="sk-pct">70% proficiency</div>
+            </div>
+          </div>
+          <p class="sk-desc">Querying, joining &amp; aggregating relational databases for business analytics.</p>
+          <div class="sk-bar"><div class="sk-fill f2" data-w="70"></div></div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-top">
+            <div class="sk-ico ic3">📊</div>
+            <div>
+              <div class="sk-name">Excel &amp; Power BI</div>
+              <div class="sk-pct">68% proficiency</div>
+            </div>
+          </div>
+          <p class="sk-desc">Dashboards, pivot tables, KPI reports &amp; interactive data visualisations.</p>
+          <div class="sk-bar"><div class="sk-fill f3" data-w="68"></div></div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-top">
+            <div class="sk-ico ic4">🧠</div>
+            <div>
+              <div class="sk-name">ML Basics</div>
+              <div class="sk-pct">50% proficiency</div>
+            </div>
+          </div>
+          <p class="sk-desc">Supervised learning fundamentals — regression, classification &amp; model evaluation.</p>
+          <div class="sk-bar"><div class="sk-fill f4" data-w="50"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS PAGE -->
+    <div class="page" id="page-projects">
+      <h2 class="page-title">Projects</h2>
+      <p class="page-sub">// things i've built &amp; shipped</p>
+      <div class="proj-grid">
+        <div class="prow">
+          <div class="pnum">01 /</div>
+          <div>
+            <div class="pname" style="color:var(--cyan)">Gastric Care</div>
+            <p class="pdesc">A live health-focused web application helping users with gastric health awareness and care information. Fully deployed and running in production on Render.</p>
+            <div class="ptags">
+              <span class="ptag">web app</span>
+              <span class="ptag">health tech</span>
+              <span class="ptag">live · deployed</span>
+            </div>
+          </div>
+          <a href="https://gastric-care.onrender.com" target="_blank" rel="noopener" class="plive">↗ live site</a>
+        </div>
+        <div class="prow">
+          <div class="pnum">02 /</div>
+          <div>
+            <div class="pname">Sales Data Dashboard</div>
+            <p class="pdesc">Interactive Power BI dashboard visualising monthly sales trends, regional performance, and KPIs from raw CSV data.</p>
+            <div class="ptags">
+              <span class="ptag">Power BI</span>
+              <span class="ptag">Excel</span>
+              <span class="ptag">data viz</span>
+            </div>
+          </div>
+          <div class="psoon">coming soon</div>
+        </div>
+        <div class="prow">
+          <div class="pnum">03 /</div>
+          <div>
+            <div class="pname">Student Performance EDA</div>
+            <p class="pdesc">Python exploratory data analysis uncovering academic outcome drivers using pandas, matplotlib &amp; seaborn on a real student dataset.</p>
+            <div class="ptags">
+              <span class="ptag">Python</span>
+              <span class="ptag">pandas</span>
+              <span class="ptag">EDA</span>
+            </div>
+          </div>
+          <div class="psoon">coming soon</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div class="page" id="page-contact">
+      <p class="contact-big">Let's build<br>something <span>great.</span></p>
+      <p class="contact-note">
+        I'm open to internships, freelance data projects, and collaborations.<br>
+        Reach out — I respond fast.
+      </p>
+      <div class="clinks">
+        <a href="mailto:varunntech@gmail.com" class="clink">
+          <span style="font-size:20px">✉</span>
+          <div>
+            <div>varunntech@gmail.com</div>
+            <div class="clink-sub">preferred contact</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/varun-singh-a226942a9" target="_blank" rel="noopener" class="clink">
+          <span style="font-size:20px;color:var(--cyan)">in</span>
+          <div>
+            <div>Varun Singh</div>
+            <div class="clink-sub">linkedin profile · varun-singh-a226942a9</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="footer-status">
+      <span class="status-dot"></span> open to work
+    </div>
+    <div class="footer-links">
+      <a href="mailto:varunntech@gmail.com" class="slink">gmail</a>
+      <a href="https://www.linkedin.com/in/varun-singh-a226942a9" target="_blank" rel="noopener" class="slink">linkedin</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // ── TYPEWRITER ──
+  const phrases = [
+    'Data Analyst',
+    'Python Developer',
+    'SQL Enthusiast',
+    'Power BI Builder',
+    'MCA · Data Science',
+    'Problem Solver'
+  ];
+  let pi = 0, ci = 0, deleting = false;
+  const el = document.getElementById('typed');
+
+  function type() {
+    const word = phrases[pi];
+    if (!deleting) {
+      el.textContent = word.slice(0, ci + 1);
+      ci++;
+      if (ci === word.length) {
+        deleting = true;
+        setTimeout(type, 1800);
+        return;
+      }
+      setTimeout(type, 80);
+    } else {
+      el.textContent = word.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) {
+        deleting = false;
+        pi = (pi + 1) % phrases.length;
+        setTimeout(type, 300);
+        return;
+      }
+      setTimeout(type, 40);
+    }
+  }
+  type();
+
+  // ── NAVIGATION ──
+  function navigate(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+    document.querySelector('nav a[data-page="' + page + '"]').classList.add('active');
+    if (page === 'skills') {
+      setTimeout(() => {
+        document.querySelectorAll('.sk-fill').forEach(b => {
+          b.style.width = b.dataset.w + '%';
+        });
+      }, 100);
+    }
+  }
+
+  document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      navigate(a.dataset.page);
+    });
+  });
+</script>
+</body>
+</html>
