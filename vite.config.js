@@ -10,12 +10,6 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
-    rollupOptions: {
-      input: {
-        main: 'index.html',
-        unlisted: 'unlisted.html'
-      }
-    }
+    sourcemap: true
   }
 })
