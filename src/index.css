@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#020205] text-dark-100 font-sans antialiased;
+    @apply selection:bg-accent-500/30 selection:text-accent-200;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-600;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-dark-900/70 backdrop-blur-xl border border-dark-700/50;
+  }
+
+  .glass-light {
+    @apply bg-white/70 backdrop-blur-xl border border-dark-200/50;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent-400 to-accent-600 bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-accent-600 hover:bg-accent-500 text-white font-medium rounded-lg 
+           transition-all duration-300 shadow-lg shadow-accent-600/20 hover:shadow-accent-500/30
+           hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 border border-dark-600 hover:border-accent-500 text-dark-200 hover:text-accent-400 
+           font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-20;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent-500/10 
+           border border-dark-800 hover:border-accent-500/30;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ==========================================================================
+   LIGHT MODE "TORCH" GLOW EFFECT
+   Keeps the website dark but casts an atmospheric glowing torch from the bottom-right
+   ========================================================================== */
+.torch-glow {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background: conic-gradient(from 270deg at 100% 100%, rgba(6, 182, 212, 0.95) 0deg, rgba(139, 92, 246, 0.5) 30deg, transparent 60deg);
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, black 15%, rgba(0, 0, 0, 0.6) 45%, transparent 80%);
+  mask-image: radial-gradient(circle at 100% 100%, black 15%, rgba(0, 0, 0, 0.6) 45%, transparent 80%);
+  filter: blur(45px);
+  pointer-events: none;
+  z-index: 2; /* Positioned above dark background sections, below content */
+  opacity: 0;
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+html:not(.dark) .torch-glow {
+  opacity: 1;
+}
+
+/* Ensure background remains pitch black in both modes */
+html:not(.dark) body {
+  background-color: #020205 !important;
+  color: #cbd5e1 !important;
+}
+
+html:not(.dark) .glass {
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Custom Cursor styles - hide default browser cursor on desktop */
+@media (min-width: 768px) {
+  html, body, a, button, input, textarea, select, [role="button"], .cursor-pointer {
+    cursor: none !important;
+  }
+}
+
+/* Animating gradient text for Hero name (Cyan/Blue -> Purple -> White) */
+@keyframes textGradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animating-gradient-text {
+  background: linear-gradient(
+    90deg,
+    #00f5ff 0%,
+    #8b5cf6 25%,
+    #ffffff 50%,
+    #8b5cf6 75%,
+    #00f5ff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+  animation: textGradientShift 8s ease infinite;
+}
+

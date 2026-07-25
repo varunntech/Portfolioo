@@ -1,0 +1,3024 @@
+================================================================================
+  VARUN KUMAR - PORTFOLIO WEBSITE - COMPLETE SOURCE CODE
+  React + Vite + Tailwind CSS + Framer Motion
+================================================================================
+
+INSTRUCTIONS:
+1. Create a new Vite React project: npm create vite@latest my-portfolio -- --template react
+2. Install dependencies: npm install framer-motion lucide-react react-intersection-observer
+3. Install dev dependencies: npm install -D tailwindcss postcss autoprefixer
+4. Run: npx tailwindcss init -p
+5. Copy each section below into the corresponding file
+6. Run: npm run dev
+
+================================================================================
+
+
+================================================================================
+  FILE: package.json
+  SECTION: CONFIG
+================================================================================
+
+{
+  "name": "varun-kumar-portfolio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "framer-motion": "^11.0.0",
+    "lucide-react": "^0.400.0",
+    "react-intersection-observer": "^9.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "vite": "^5.3.0"
+  }
+}
+
+
+================================================================================
+  FILE: vite.config.js
+  SECTION: CONFIG
+================================================================================
+
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    port: 3000,
+    open: true
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: true
+  }
+})
+
+
+================================================================================
+  FILE: tailwind.config.js
+  SECTION: CONFIG
+================================================================================
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  darkMode: 'class',
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        accent: {
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+          950: '#2e1065',
+        },
+        dark: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
+          950: '#020617',
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+      },
+      animation: {
+        'gradient-x': 'gradient-x 15s ease infinite',
+        'float': 'float 6s ease-in-out infinite',
+        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+      keyframes: {
+        'gradient-x': {
+          '0%, 100%': {
+            'background-size': '200% 200%',
+            'background-position': 'left center'
+          },
+          '50%': {
+            'background-size': '200% 200%',
+            'background-position': 'right center'
+          },
+        },
+        'float': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-20px)' },
+        },
+      },
+    },
+  },
+  plugins: [],
+}
+
+
+================================================================================
+  FILE: postcss.config.js
+  SECTION: CONFIG
+================================================================================
+
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+
+================================================================================
+  FILE: .env
+  SECTION: CONFIG
+================================================================================
+
+# Portfolio Configuration
+# Rename to .env and fill in your values
+
+# GitHub API (optional - for fetching real stats)
+VITE_GITHUB_USERNAME=varun-kumar
+VITE_GITHUB_TOKEN=your_github_token_here
+
+# Backend API URL (for contact form)
+VITE_API_BASE_URL=https://your-backend-api.com/api
+
+# EmailJS (if using EmailJS for contact form)
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+
+# Social Links
+VITE_LINKEDIN_URL=https://linkedin.com/in/your-profile
+VITE_GITHUB_URL=https://github.com/your-username
+VITE_WHATSAPP_NUMBER=916200050859
+
+
+================================================================================
+  FILE: index.html
+  SECTION: HTML
+================================================================================
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO Meta Tags -->
+    <title>Varun Kumar | Data Analyst & ML Enthusiast</title>
+    <meta name="description" content="Portfolio of Varun Kumar - MCA Data Science student, Data Analyst, Machine Learning & AI enthusiast. Showcasing projects in data analysis, ML, and Python development." />
+    <meta name="keywords" content="Varun Kumar, Data Analyst, Machine Learning, AI, Data Science, Python, Portfolio, MCA" />
+    <meta name="author" content="Varun Kumar" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://your-domain.com" />
+    <meta property="og:title" content="Varun Kumar | Data Analyst & ML Enthusiast" />
+    <meta property="og:description" content="Portfolio of Varun Kumar - MCA Data Science student specializing in Data Analysis, Machine Learning & AI." />
+    <meta property="og:image" content="https://your-domain.com/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://your-domain.com" />
+    <meta property="twitter:title" content="Varun Kumar | Data Analyst & ML Enthusiast" />
+    <meta property="twitter:description" content="Portfolio of Varun Kumar - MCA Data Science student specializing in Data Analysis, Machine Learning & AI." />
+    <meta property="twitter:image" content="https://your-domain.com/og-image.jpg" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#020617" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+
+
+================================================================================
+  FILE: src/main.jsx
+  SECTION: ENTRY
+================================================================================
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+
+
+================================================================================
+  FILE: src/index.css
+  SECTION: STYLES
+================================================================================
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-dark-950 text-dark-100 font-sans antialiased;
+    @apply selection:bg-accent-500/30 selection:text-accent-200;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-dark-600;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-dark-900/70 backdrop-blur-xl border border-dark-700/50;
+  }
+
+  .glass-light {
+    @apply bg-white/70 backdrop-blur-xl border border-dark-200/50;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent-400 to-accent-600 bg-clip-text text-transparent;
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 bg-accent-600 hover:bg-accent-500 text-white font-medium rounded-lg 
+           transition-all duration-300 shadow-lg shadow-accent-600/20 hover:shadow-accent-500/30
+           hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 border border-dark-600 hover:border-accent-500 text-dark-200 hover:text-accent-400 
+           font-medium rounded-lg transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-20;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-accent-500/10 
+           border border-dark-800 hover:border-accent-500/30;
+  }
+}
+
+@layer utilities {
+  .animate-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+
+================================================================================
+  FILE: src/data/projects.js
+  SECTION: DATA
+================================================================================
+
+/**
+ * Projects Data
+ * Edit this file to add/update projects. Backend integration ready.
+ */
+
+export const projectCategories = [
+  { id: 'all', label: 'All Projects' },
+  { id: 'data-analysis', label: 'Data Analysis' },
+  { id: 'machine-learning', label: 'Machine Learning' },
+  { id: 'web-dev', label: 'Web Development' },
+];
+
+export const projects = [
+  {
+    id: 1,
+    title: 'Netflix Data Analysis',
+    description: 'Comprehensive exploratory data analysis of Netflix content catalog. Analyzed viewing trends, content distribution by genre, country, and release year. Built interactive dashboards with Power BI to visualize insights on content strategy and viewer preferences.',
+    category: 'data-analysis',
+    tags: ['Python', 'Pandas', 'Power BI', 'Matplotlib', 'Seaborn'],
+    githubUrl: 'https://github.com/your-username/netflix-data-analysis',
+    liveUrl: '', // Leave empty if no live demo
+    thumbnail: '/project-thumbnails/netflix.jpg',
+    featured: true,
+    stats: {
+      datasetSize: '8,000+ titles',
+      visualizations: '15+ charts',
+      insights: '10 key findings'
+    }
+  },
+  {
+    id: 2,
+    title: 'Customer Churn Prediction',
+    description: 'Built a machine learning model to predict customer churn for a telecom company. Performed feature engineering, handled class imbalance with SMOTE, and compared multiple algorithms (Random Forest, XGBoost, SVM). Achieved 87% accuracy with optimized Random Forest.',
+    category: 'machine-learning',
+    tags: ['Python', 'Scikit-learn', 'Pandas', 'XGBoost', 'SMOTE'],
+    githubUrl: 'https://github.com/your-username/churn-prediction',
+    liveUrl: '',
+    thumbnail: '/project-thumbnails/churn.jpg',
+    featured: false,
+    stats: {
+      accuracy: '87%',
+      algorithms: '5 compared',
+      features: '20+ engineered'
+    }
+  },
+  {
+    id: 3,
+    title: 'Sales Dashboard with Power BI',
+    description: 'End-to-end business intelligence solution for retail sales analysis. Created ETL pipelines, designed star schema data model, and built interactive Power BI dashboard with drill-through capabilities, KPI cards, and time intelligence functions.',
+    category: 'data-analysis',
+    tags: ['Power BI', 'DAX', 'SQL', 'Excel', 'Data Modeling'],
+    githubUrl: 'https://github.com/your-username/sales-dashboard',
+    liveUrl: '',
+    thumbnail: '/project-thumbnails/sales.jpg',
+    featured: false,
+    stats: {
+      kpis: '12 KPIs tracked',
+      dataPoints: '50K+ records',
+      refresh: 'Auto-refresh'
+    }
+  },
+  {
+    id: 4,
+    title: 'Sentiment Analysis on Product Reviews',
+    description: 'NLP-based sentiment classification system for e-commerce product reviews. Implemented text preprocessing, TF-IDF vectorization, and trained Naive Bayes & LSTM models. Deployed as a Flask API for real-time sentiment scoring.',
+    category: 'machine-learning',
+    tags: ['Python', 'NLTK', 'TensorFlow', 'Flask', 'NLP'],
+    githubUrl: 'https://github.com/your-username/sentiment-analysis',
+    liveUrl: '',
+    thumbnail: '/project-thumbnails/sentiment.jpg',
+    featured: false,
+    stats: {
+      accuracy: '91%',
+      reviews: '100K+ analyzed',
+      apiLatency: '<200ms'
+    }
+  },
+  {
+    id: 5,
+    title: 'Personal Portfolio Website',
+    description: 'This very portfolio! Built with React, Tailwind CSS, and Framer Motion. Features dark/light mode, smooth scroll animations, responsive design, and modular architecture ready for backend integration.',
+    category: 'web-dev',
+    tags: ['React', 'Tailwind CSS', 'Framer Motion', 'Vite'],
+    githubUrl: 'https://github.com/your-username/portfolio',
+    liveUrl: 'https://your-domain.com',
+    thumbnail: '/project-thumbnails/portfolio.jpg',
+    featured: false,
+    stats: {
+      components: '15+',
+      animations: '20+',
+      lighthouse: '95+'
+    }
+  },
+  {
+    id: 6,
+    title: 'House Price Prediction',
+    description: 'Regression model to predict house prices using the Boston Housing dataset. Applied feature scaling, polynomial features, and regularization techniques. Compared Linear Regression, Ridge, Lasso, and Elastic Net with cross-validation.',
+    category: 'machine-learning',
+    tags: ['Python', 'Scikit-learn', 'Regression', 'Feature Engineering'],
+    githubUrl: 'https://github.com/your-username/house-price-prediction',
+    liveUrl: '',
+    thumbnail: '/project-thumbnails/housing.jpg',
+    featured: false,
+    stats: {
+      r2Score: '0.89',
+      techniques: '4 regression models',
+      cvFolds: '10-fold CV'
+    }
+  },
+];
+
+
+================================================================================
+  FILE: src/data/skills.js
+  SECTION: DATA
+================================================================================
+
+/**
+ * Skills Data
+ * Organized by category for the skills section
+ */
+
+export const skillCategories = [
+  {
+    id: 'data-analysis',
+    title: 'Data Analysis',
+    icon: 'BarChart3',
+    description: 'Transforming raw data into actionable insights',
+    skills: [
+      { name: 'Excel', level: 'Advanced', icon: 'Spreadsheet' },
+      { name: 'SQL', level: 'Advanced', icon: 'Database' },
+      { name: 'Power BI', level: 'Advanced', icon: 'PieChart' },
+      { name: 'Tableau', level: 'Intermediate', icon: 'LayoutDashboard' },
+      { name: 'Data Cleaning', level: 'Advanced', icon: 'Filter' },
+      { name: 'Statistical Analysis', level: 'Intermediate', icon: 'TrendingUp' },
+    ]
+  },
+  {
+    id: 'programming',
+    title: 'Programming',
+    icon: 'Code2',
+    description: 'Building robust and scalable solutions',
+    skills: [
+      { name: 'Python', level: 'Advanced', icon: 'Terminal' },
+      { name: 'R', level: 'Intermediate', icon: 'BarChart' },
+      { name: 'JavaScript', level: 'Intermediate', icon: 'Braces' },
+      { name: 'HTML/CSS', level: 'Advanced', icon: 'FileCode' },
+      { name: 'SQL', level: 'Advanced', icon: 'Database' },
+      { name: 'Bash/Shell', level: 'Intermediate', icon: 'Command' },
+    ]
+  },
+  {
+    id: 'machine-learning',
+    title: 'Machine Learning',
+    icon: 'Brain',
+    description: 'Building intelligent predictive models',
+    skills: [
+      { name: 'Scikit-learn', level: 'Advanced', icon: 'Cog' },
+      { name: 'Pandas', level: 'Advanced', icon: 'Table' },
+      { name: 'NumPy', level: 'Advanced', icon: 'Grid3X3' },
+      { name: 'TensorFlow', level: 'Intermediate', icon: 'Layers' },
+      { name: 'PyTorch', level: 'Beginner', icon: 'Flame' },
+      { name: 'Keras', level: 'Intermediate', icon: 'Zap' },
+    ]
+  },
+  {
+    id: 'tools',
+    title: 'Tools & Platforms',
+    icon: 'Wrench',
+    description: 'Essential tools for modern development',
+    skills: [
+      { name: 'Jupyter Notebook', level: 'Advanced', icon: 'BookOpen' },
+      { name: 'Git & GitHub', level: 'Advanced', icon: 'GitBranch' },
+      { name: 'VS Code', level: 'Advanced', icon: 'Code' },
+      { name: 'Google Colab', level: 'Advanced', icon: 'Cloud' },
+      { name: 'Anaconda', level: 'Intermediate', icon: 'Box' },
+      { name: 'Docker', level: 'Beginner', icon: 'Container' },
+    ]
+  },
+];
+
+
+================================================================================
+  FILE: src/data/timeline.js
+  SECTION: DATA
+================================================================================
+
+/**
+ * Experience & Education Timeline Data
+ */
+
+export const timelineEvents = [
+  {
+    id: 1,
+    type: 'education',
+    title: 'MCA in Data Science',
+    organization: '[Your University Name]',
+    location: '[City, State]',
+    date: '2023 – 2025',
+    description: 'Pursuing Master of Computer Applications with specialization in Data Science. Coursework includes Machine Learning, Deep Learning, Big Data Analytics, Statistical Methods, and Data Visualization.',
+    highlights: [
+      'CGPA: [Your CGPA]',
+      'Relevant Coursework: ML, DL, Big Data, Statistics',
+      'Research Project: [Your Project Title]'
+    ],
+    icon: 'GraduationCap'
+  },
+  {
+    id: 2,
+    type: 'internship',
+    title: 'Data Analyst Intern',
+    organization: '[Company Name]',
+    location: '[City/Remote]',
+    date: '[Month Year] – [Month Year]',
+    description: 'Worked on real-world datasets to derive business insights. Built dashboards, performed statistical analysis, and automated reporting pipelines.',
+    highlights: [
+      'Built 5+ interactive dashboards using Power BI',
+      'Automated weekly reporting saving 10+ hours/week',
+      'Identified cost-saving opportunities worth ₹[X] lakhs'
+    ],
+    icon: 'Briefcase'
+  },
+  {
+    id: 3,
+    type: 'certification',
+    title: 'Machine Learning Specialization',
+    organization: 'Coursera (Stanford Online)',
+    location: 'Online',
+    date: '2024',
+    description: 'Completed comprehensive machine learning specialization covering supervised learning, unsupervised learning, and neural networks.',
+    highlights: [
+      'Grade: [Your Grade]',
+      'Hands-on projects: 10+',
+      'Skills: Regression, Classification, Clustering, Neural Networks'
+    ],
+    icon: 'Award'
+  },
+  {
+    id: 4,
+    type: 'education',
+    title: 'Bachelor of Computer Applications (BCA)',
+    organization: '[Your College Name]',
+    location: '[City, State]',
+    date: '2020 – 2023',
+    description: 'Completed undergraduate degree with focus on programming fundamentals, database management, and software development.',
+    highlights: [
+      'Percentage/CGPA: [Your Score]',
+      'Project: [Your BCA Project]',
+      'Activities: [Clubs/Events]'
+    ],
+    icon: 'GraduationCap'
+  },
+  {
+    id: 5,
+    type: 'achievement',
+    title: '[Achievement Title]',
+    organization: '[Issuing Organization]',
+    location: '[Location/Online]',
+    date: '2024',
+    description: '[Brief description of your achievement, hackathon win, competition, or notable accomplishment]',
+    highlights: [
+      '[Highlight 1]',
+      '[Highlight 2]'
+    ],
+    icon: 'Trophy'
+  },
+];
+
+
+================================================================================
+  FILE: src/data/certifications.js
+  SECTION: DATA
+================================================================================
+
+/**
+ * Certifications Data
+ */
+
+export const certifications = [
+  {
+    id: 1,
+    title: 'Google Data Analytics Professional Certificate',
+    platform: 'Coursera',
+    issuer: 'Google',
+    date: '2024',
+    credentialId: '[Credential ID]',
+    verifyUrl: 'https://coursera.org/verify/[ID]',
+    skills: ['Data Analysis', 'R', 'SQL', 'Tableau', 'Data Visualization'],
+    icon: 'BarChart'
+  },
+  {
+    id: 2,
+    title: 'Machine Learning Specialization',
+    platform: 'Coursera',
+    issuer: 'Stanford Online & DeepLearning.AI',
+    date: '2024',
+    credentialId: '[Credential ID]',
+    verifyUrl: 'https://coursera.org/verify/[ID]',
+    skills: ['Machine Learning', 'Python', 'Neural Networks', 'TensorFlow'],
+    icon: 'Brain'
+  },
+  {
+    id: 3,
+    title: 'Python for Data Science',
+    platform: 'DataCamp',
+    issuer: 'DataCamp',
+    date: '2023',
+    credentialId: '[Credential ID]',
+    verifyUrl: 'https://datacamp.com/statement-of-accomplishment/course/[ID]',
+    skills: ['Python', 'Pandas', 'NumPy', 'Data Manipulation'],
+    icon: 'Code2'
+  },
+  {
+    id: 4,
+    title: 'SQL for Data Science',
+    platform: 'Coursera',
+    issuer: 'University of California, Davis',
+    date: '2023',
+    credentialId: '[Credential ID]',
+    verifyUrl: 'https://coursera.org/verify/[ID]',
+    skills: ['SQL', 'Database Management', 'Query Optimization'],
+    icon: 'Database'
+  },
+  {
+    id: 5,
+    title: 'Power BI Data Analyst Associate (PL-300)',
+    platform: 'Microsoft Learn',
+    issuer: 'Microsoft',
+    date: '2024',
+    credentialId: '[Credential ID]',
+    verifyUrl: 'https://learn.microsoft.com/en-us/users/[username]/credentials/[ID]',
+    skills: ['Power BI', 'DAX', 'Data Modeling', 'Visualization'],
+    icon: 'PieChart'
+  },
+  {
+    id: 6,
+    title: '[Your Certification Title]',
+    platform: '[Platform]',
+    issuer: '[Issuer]',
+    date: '[Year]',
+    credentialId: '[Credential ID]',
+    verifyUrl: '[Verification URL]',
+    skills: ['Skill 1', 'Skill 2', 'Skill 3'],
+    icon: 'Award'
+  },
+];
+
+
+================================================================================
+  FILE: src/services/api.js
+  SECTION: SERVICES
+================================================================================
+
+/**
+ * API Service Layer
+ * 
+ * Placeholder functions for backend integration.
+ * Replace these with actual API calls once your backend is ready.
+ * 
+ * Environment variables (from .env):
+ * - VITE_API_BASE_URL: Your backend API base URL
+ * - VITE_GITHUB_USERNAME: Your GitHub username
+ * - VITE_GITHUB_TOKEN: GitHub personal access token (optional)
+ * - VITE_EMAILJS_*: EmailJS credentials (if using EmailJS)
+ */
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const GITHUB_USERNAME = import.meta.env.VITE_GITHUB_USERNAME || 'varun-kumar';
+const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || '';
+
+// ==================== CONTACT FORM ====================
+
+/**
+ * Submit contact form data to backend
+ * @param {Object} formData - { name, email, message }
+ * @returns {Promise<Object>} - { success: boolean, message: string }
+ */
+export const submitContactForm = async (formData) => {
+  // TODO: Replace with your actual backend endpoint
+  // Example using fetch:
+  // const response = await fetch(`${API_BASE_URL}/contact`, {
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify(formData)
+  // });
+  // return response.json();
+
+  // Placeholder: Simulate API call
+  console.log('Contact form submitted:', formData);
+
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        success: true,
+        message: 'Message sent successfully! I will get back to you soon.'
+      });
+    }, 1500);
+  });
+};
+
+/**
+ * Submit contact form using EmailJS
+ * Requires EmailJS account and environment variables
+ */
+export const submitContactFormEmailJS = async (formData) => {
+  // TODO: Implement EmailJS integration
+  // import emailjs from '@emailjs/browser';
+  // 
+  // const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  // const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  // const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+  //
+  // return emailjs.send(serviceId, templateId, formData, publicKey);
+
+  throw new Error('EmailJS not configured. Set up environment variables first.');
+};
+
+// ==================== GITHUB API ====================
+
+/**
+ * Fetch GitHub user stats
+ * @returns {Promise<Object>} - GitHub user data
+ */
+export const fetchGitHubStats = async () => {
+  // TODO: Replace with actual GitHub API call
+  // const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+  // const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}`, { headers });
+  // return response.json();
+
+  // Placeholder data
+  return {
+    public_repos: 25,
+    followers: 45,
+    following: 30,
+    public_gists: 5,
+    created_at: '2022-01-15T00:00:00Z',
+    bio: 'Data Analyst | MCA Data Science | ML & AI Enthusiast',
+    location: 'India',
+    company: null,
+    blog: ''
+  };
+};
+
+/**
+ * Fetch GitHub repositories
+ * @param {number} perPage - Number of repos to fetch
+ * @returns {Promise<Array>} - Array of repository objects
+ */
+export const fetchGitHubRepos = async (perPage = 6) => {
+  // TODO: Replace with actual GitHub API call
+  // const headers = GITHUB_TOKEN ? { Authorization: `token ${GITHUB_TOKEN}` } : {};
+  // const response = await fetch(
+  //   `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=${perPage}`,
+  //   { headers }
+  // );
+  // return response.json();
+
+  // Placeholder data
+  return [
+    {
+      id: 1,
+      name: 'netflix-data-analysis',
+      description: 'Comprehensive EDA of Netflix content catalog with Power BI dashboards',
+      language: 'Python',
+      stargazers_count: 12,
+      forks_count: 3,
+      updated_at: '2024-11-15T00:00:00Z',
+      html_url: `https://github.com/${GITHUB_USERNAME}/netflix-data-analysis`
+    },
+    {
+      id: 2,
+      name: 'churn-prediction-ml',
+      description: 'Customer churn prediction using ensemble ML models',
+      language: 'Jupyter Notebook',
+      stargazers_count: 8,
+      forks_count: 2,
+      updated_at: '2024-10-20T00:00:00Z',
+      html_url: `https://github.com/${GITHUB_USERNAME}/churn-prediction-ml`
+    },
+    {
+      id: 3,
+      name: 'sales-dashboard-powerbi',
+      description: 'Interactive retail sales dashboard with DAX measures',
+      language: 'PowerShell',
+      stargazers_count: 5,
+      forks_count: 1,
+      updated_at: '2024-09-10T00:00:00Z',
+      html_url: `https://github.com/${GITHUB_USERNAME}/sales-dashboard-powerbi`
+    },
+  ];
+};
+
+/**
+ * Get GitHub README stats image URLs
+ * These are generated by github-readme-stats.vercel.app
+ * Replace 'your-username' with your actual GitHub username
+ */
+export const getGitHubStatsUrls = () => {
+  const username = GITHUB_USERNAME;
+  const theme = 'radical';
+
+  return {
+    statsCard: `https://github-readme-stats.vercel.app/api?username=${username}&show_icons=true&theme=${theme}&hide_border=true&count_private=true`,
+    topLanguages: `https://github-readme-stats.vercel.app/api/top-langs/?username=${username}&layout=compact&theme=${theme}&hide_border=true`,
+    streakStats: `https://github-readme-streak-stats.herokuapp.com/?user=${username}&theme=${theme}&hide_border=true`,
+    contributionGraph: `https://github-readme-activity-graph.vercel.app/graph?username=${username}&theme=github-compact&hide_border=true`
+  };
+};
+
+// ==================== PROJECTS API (Future Backend) ====================
+
+/**
+ * Fetch projects from backend
+ * @returns {Promise<Array>} - Array of project objects
+ */
+export const fetchProjects = async () => {
+  // TODO: Replace with actual API call
+  // const response = await fetch(`${API_BASE_URL}/projects`);
+  // return response.json();
+
+  // For now, import from local data
+  const { projects } = await import('../data/projects.js');
+  return projects;
+};
+
+/**
+ * Fetch single project by ID
+ * @param {number} id - Project ID
+ */
+export const fetchProjectById = async (id) => {
+  // TODO: Replace with actual API call
+  // const response = await fetch(`${API_BASE_URL}/projects/${id}`);
+  // return response.json();
+
+  const { projects } = await import('../data/projects.js');
+  return projects.find(p => p.id === id);
+};
+
+// ==================== ANALYTICS (Optional) ====================
+
+/**
+ * Track page view or event (Google Analytics, Plausible, etc.)
+ * @param {string} eventName - Event name
+ * @param {Object} params - Event parameters
+ */
+export const trackEvent = (eventName, params = {}) => {
+  // TODO: Integrate with your analytics provider
+  // Example: gtag('event', eventName, params);
+
+  if (import.meta.env.DEV) {
+    console.log('Analytics event:', eventName, params);
+  }
+};
+
+
+================================================================================
+  FILE: src/hooks/useActiveSection.js
+  SECTION: HOOKS
+================================================================================
+
+import { useState, useEffect } from 'react';
+
+/**
+ * Custom hook to track which section is currently in view
+ * Used for navbar active state highlighting
+ * @param {string[]} sectionIds - Array of section IDs to track
+ * @param {number} threshold - Intersection threshold (0-1)
+ * @returns {string} - Currently active section ID
+ */
+export const useActiveSection = (sectionIds, threshold = 0.3) => {
+  const [activeSection, setActiveSection] = useState('');
+
+  useEffect(() => {
+    const observers = [];
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (!element) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { threshold, rootMargin: '-80px 0px -60% 0px' }
+      );
+
+      observer.observe(element);
+      observers.push(observer);
+    });
+
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, [sectionIds, threshold]);
+
+  return activeSection;
+};
+
+export default useActiveSection;
+
+
+================================================================================
+  FILE: src/components/SectionReveal.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+
+/**
+ * SectionReveal - Wrapper component for scroll-triggered animations
+ * Wrap any section content with this to get smooth reveal animations
+ * 
+ * Usage:
+ * <SectionReveal>
+ *   <YourContent />
+ * </SectionReveal>
+ */
+
+const SectionReveal = ({ 
+  children, 
+  className = '',
+  delay = 0,
+  direction = 'up', // 'up', 'down', 'left', 'right'
+  duration = 0.6
+}) => {
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
+  const directions = {
+    up: { y: 40, x: 0 },
+    down: { y: -40, x: 0 },
+    left: { x: 40, y: 0 },
+    right: { x: -40, y: 0 },
+  };
+
+  const initial = {
+    opacity: 0,
+    ...directions[direction],
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={initial}
+      animate={inView ? { opacity: 1, x: 0, y: 0 } : initial}
+      transition={{ 
+        duration, 
+        delay,
+        ease: [0.25, 0.1, 0.25, 1] 
+      }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+export default SectionReveal;
+
+
+================================================================================
+  FILE: src/components/ParticleBackground.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useEffect, useRef } from 'react';
+
+/**
+ * ParticleBackground - Animated canvas particle system
+ * Creates a subtle, techy particle effect for the hero section
+ */
+
+const ParticleBackground = () => {
+  const canvasRef = useRef(null);
+  const animationRef = useRef(null);
+  const particlesRef = useRef([]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width = canvas.offsetWidth;
+    let height = canvas.offsetHeight;
+
+    // Set canvas size with device pixel ratio for sharp rendering
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.scale(dpr, dpr);
+
+    // Particle class
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.size = Math.random() * 2 + 0.5;
+        this.opacity = Math.random() * 0.5 + 0.1;
+      }
+
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Wrap around edges
+        if (this.x < 0) this.x = width;
+        if (this.x > width) this.x = 0;
+        if (this.y < 0) this.y = height;
+        if (this.y > height) this.y = 0;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`; // accent-500 color
+        ctx.fill();
+      }
+    }
+
+    // Initialize particles
+    const particleCount = Math.min(80, Math.floor((width * height) / 15000));
+    particlesRef.current = Array.from({ length: particleCount }, () => new Particle());
+
+    // Draw connections between nearby particles
+    const drawConnections = () => {
+      const maxDistance = 120;
+      const maxConnections = 3;
+
+      for (let i = 0; i < particlesRef.current.length; i++) {
+        let connections = 0;
+        for (let j = i + 1; j < particlesRef.current.length; j++) {
+          if (connections >= maxConnections) break;
+
+          const dx = particlesRef.current[i].x - particlesRef.current[j].x;
+          const dy = particlesRef.current[i].y - particlesRef.current[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < maxDistance) {
+            const opacity = (1 - distance / maxDistance) * 0.15;
+            ctx.beginPath();
+            ctx.moveTo(particlesRef.current[i].x, particlesRef.current[i].y);
+            ctx.lineTo(particlesRef.current[j].x, particlesRef.current[j].y);
+            ctx.strokeStyle = `rgba(139, 92, 246, ${opacity})`;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+            connections++;
+          }
+        }
+      }
+    };
+
+    // Animation loop
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      particlesRef.current.forEach(particle => {
+        particle.update();
+        particle.draw();
+      });
+
+      drawConnections();
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    // Handle resize
+    const handleResize = () => {
+      width = canvas.offsetWidth;
+      height = canvas.offsetHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.scale(dpr, dpr);
+
+      // Reinitialize particles for new size
+      const newCount = Math.min(80, Math.floor((width * height) / 15000));
+      particlesRef.current = Array.from({ length: newCount }, () => new Particle());
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      cancelAnimationFrame(animationRef.current);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ opacity: 0.6 }}
+    />
+  );
+};
+
+export default ParticleBackground;
+
+
+================================================================================
+  FILE: src/components/ThemeToggle.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon } from 'lucide-react';
+
+/**
+ * ThemeToggle - Dark/Light mode toggle button
+ * Persists preference in localStorage
+ */
+
+const ThemeToggle = ({ className = '' }) => {
+  const [isDark, setIsDark] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    // Check for saved preference or system preference
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldBeDark = saved === 'dark' || (!saved && prefersDark);
+
+    setIsDark(shouldBeDark);
+    document.documentElement.classList.toggle('dark', shouldBeDark);
+  }, []);
+
+  const toggleTheme = () => {
+    const newDark = !isDark;
+    setIsDark(newDark);
+    document.documentElement.classList.toggle('dark', newDark);
+    localStorage.setItem('theme', newDark ? 'dark' : 'light');
+  };
+
+  if (!mounted) {
+    return (
+      <div className={`w-10 h-10 rounded-lg bg-dark-800 animate-pulse ${className}`} />
+    );
+  }
+
+  return (
+    <motion.button
+      onClick={toggleTheme}
+      className={`relative w-10 h-10 rounded-lg flex items-center justify-center 
+                  transition-colors duration-300
+                  ${isDark 
+                    ? 'bg-dark-800 text-accent-400 hover:bg-dark-700' 
+                    : 'bg-white text-amber-500 hover:bg-gray-100 shadow-md'
+                  } ${className}`}
+      whileTap={{ scale: 0.9 }}
+      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        {isDark ? (
+          <motion.div
+            key="moon"
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Moon size={18} />
+          </motion.div>
+        ) : (
+          <motion.div
+            key="sun"
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 10, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Sun size={18} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.button>
+  );
+};
+
+export default ThemeToggle;
+
+
+================================================================================
+  FILE: src/components/ScrollToTop.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowUp } from 'lucide-react';
+
+/**
+ * ScrollToTop - Floating button that appears after scrolling down
+ */
+
+const ScrollToTop = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      setIsVisible(window.scrollY > 500);
+    };
+
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.button
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+          transition={{ duration: 0.2 }}
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full 
+                     bg-accent-600 hover:bg-accent-500 text-white 
+                     shadow-lg shadow-accent-600/30 
+                     flex items-center justify-center
+                     transition-colors duration-300 hover:-translate-y-1
+                     dark:bg-accent-600 dark:hover:bg-accent-500"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={20} />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+};
+
+export default ScrollToTop;
+
+
+================================================================================
+  FILE: src/components/Navbar.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X } from 'lucide-react';
+import ThemeToggle from './ThemeToggle';
+import useActiveSection from '../hooks/useActiveSection';
+
+/**
+ * Navbar - Sticky glassmorphism navigation with active section highlighting
+ * Smooth scroll to sections on click
+ */
+
+const navLinks = [
+  { id: 'hero', label: 'Home' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'projects', label: 'Projects' },
+  { id: 'github', label: 'GitHub' },
+  { id: 'experience', label: 'Experience' },
+  { id: 'certifications', label: 'Certifications' },
+  { id: 'contact', label: 'Contact' },
+];
+
+const Navbar = () => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const activeSection = useActiveSection(navLinks.map(link => link.id));
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMobileMenuOpen(false);
+    }
+  };
+
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300
+          ${isScrolled 
+            ? 'glass shadow-lg shadow-black/5 py-3' 
+            : 'bg-transparent py-5'
+          }`}
+      >
+        <div className="max-w-7xl mx-auto section-padding flex items-center justify-between">
+          {/* Logo */}
+          <motion.button
+            onClick={() => scrollToSection('hero')}
+            className="text-xl font-bold tracking-tight"
+            whileHover={{ scale: 1.02 }}
+          >
+            <span className="text-gradient">VK</span>
+            <span className="text-dark-100 dark:text-dark-100 text-white/90 ml-1">.</span>
+          </motion.button>
+
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <button
+                key={link.id}
+                onClick={() => scrollToSection(link.id)}
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg transition-all duration-300
+                  ${activeSection === link.id
+                    ? 'text-accent-400'
+                    : 'text-dark-400 hover:text-dark-200 dark:text-dark-400 dark:hover:text-white'
+                  }`}
+              >
+                {link.label}
+                {activeSection === link.id && (
+                  <motion.div
+                    layoutId="activeNav"
+                    className="absolute inset-0 bg-accent-500/10 rounded-lg -z-10"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+
+          {/* Right side actions */}
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+
+            {/* Mobile menu button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden w-10 h-10 rounded-lg bg-dark-800/80 text-dark-200 
+                         flex items-center justify-center hover:bg-dark-700 transition-colors"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 lg:hidden"
+          >
+            <div 
+              className="absolute inset-0 bg-dark-950/90 backdrop-blur-xl"
+              onClick={() => setIsMobileMenuOpen(false)}
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="absolute top-20 left-4 right-4 bg-dark-900 border border-dark-700 
+                         rounded-2xl p-6 shadow-2xl"
+            >
+              <div className="flex flex-col gap-2">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.id}
+                    onClick={() => scrollToSection(link.id)}
+                    className={`px-4 py-3 rounded-xl text-left font-medium transition-all
+                      ${activeSection === link.id
+                        ? 'bg-accent-500/10 text-accent-400'
+                        : 'text-dark-300 hover:bg-dark-800 hover:text-white'
+                      }`}
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+};
+
+export default Navbar;
+
+
+================================================================================
+  FILE: src/components/Hero.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Github, Linkedin, Mail, MessageCircle, ArrowDown, FileText } from 'lucide-react';
+import ParticleBackground from './ParticleBackground';
+
+/**
+ * Hero Section - Animated landing with typing effect, particles, and CTAs
+ */
+
+const roles = [
+  'Data Analyst',
+  'ML Enthusiast', 
+  'Python Developer',
+  'Data Science Student'
+];
+
+const socialLinks = [
+  { icon: Github, href: 'https://github.com/[your-username]', label: 'GitHub' },
+  { icon: Linkedin, href: 'https://linkedin.com/in/[your-profile]', label: 'LinkedIn' },
+  { icon: Mail, href: 'mailto:varunntech@gmail.com', label: 'Email' },
+  { icon: MessageCircle, href: 'https://wa.me/916200050859?text=Hi, I saw your portfolio and would like to connect!', label: 'WhatsApp' },
+];
+
+const Hero = () => {
+  const [currentRole, setCurrentRole] = useState('');
+  const [roleIndex, setRoleIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  // Typing effect
+  useEffect(() => {
+    const currentText = roles[roleIndex];
+    const typeSpeed = isDeleting ? 50 : 100;
+
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        setCurrentRole(currentText.slice(0, currentRole.length + 1));
+        if (currentRole === currentText) {
+          setTimeout(() => setIsDeleting(true), 2000);
+        }
+      } else {
+        setCurrentRole(currentText.slice(0, currentRole.length - 1));
+        if (currentRole === '') {
+          setIsDeleting(false);
+          setRoleIndex((prev) => (prev + 1) % roles.length);
+        }
+      }
+    }, typeSpeed);
+
+    return () => clearTimeout(timer);
+  }, [currentRole, isDeleting, roleIndex]);
+
+  const scrollToProjects = () => {
+    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const downloadResume = () => {
+    // TODO: Replace with actual resume PDF path
+    // window.open('/resume.pdf', '_blank');
+    alert('Resume download coming soon! Add your PDF to the public folder.');
+  };
+
+  return (
+    <section 
+      id="hero" 
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+    >
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-dark-950 via-dark-900 to-accent-950/30" />
+
+      {/* Animated particles */}
+      <ParticleBackground />
+
+      {/* Subtle grid pattern */}
+      <div 
+        className="absolute inset-0 opacity-[0.03]"
+        style={{
+          backgroundImage: `linear-gradient(rgba(139, 92, 246, 0.3) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(139, 92, 246, 0.3) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}
+      />
+
+      {/* Content */}
+      <div className="relative z-10 text-center section-padding max-w-4xl mx-auto">
+        {/* Greeting badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full 
+                     bg-accent-500/10 border border-accent-500/20 text-accent-400 text-sm mb-8"
+        >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75" />
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-500" />
+          </span>
+          Available for opportunities
+        </motion.div>
+
+        {/* Name */}
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4"
+        >
+          <span className="text-white">Varun</span>{' '}
+          <span className="text-gradient">Kumar</span>
+        </motion.h1>
+
+        {/* Role with typing effect */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="text-xl sm:text-2xl md:text-3xl font-medium text-dark-300 mb-4 h-10"
+        >
+          <span className="text-accent-400 font-mono">
+            {currentRole}
+            <span className="animate-pulse">|</span>
+          </span>
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="text-lg text-dark-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+        >
+          MCA Data Science student passionate about transforming data into insights.
+          I build intelligent solutions using Python, Machine Learning, and modern analytics tools.
+        </motion.p>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12"
+        >
+          <button onClick={scrollToProjects} className="btn-primary flex items-center gap-2">
+            View Projects
+            <ArrowDown size={18} />
+          </button>
+          <button onClick={downloadResume} className="btn-outline flex items-center gap-2">
+            <FileText size={18} />
+            Download Resume
+          </button>
+        </motion.div>
+
+        {/* Social Links */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex items-center justify-center gap-4"
+        >
+          {socialLinks.map((social, index) => (
+            <motion.a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-11 h-11 rounded-xl bg-dark-800/80 border border-dark-700/50 
+                         flex items-center justify-center text-dark-400 
+                         hover:text-accent-400 hover:border-accent-500/30 hover:bg-accent-500/5
+                         transition-all duration-300"
+              whileHover={{ scale: 1.1, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 + index * 0.1 }}
+              aria-label={social.label}
+            >
+              <social.icon size={20} />
+            </motion.a>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Bottom gradient fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-dark-950 to-transparent" />
+    </section>
+  );
+};
+
+export default Hero;
+
+
+================================================================================
+  FILE: src/components/About.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView } from 'framer-motion';
+import { BookOpen, Award, Github, FolderOpen } from 'lucide-react';
+import SectionReveal from './SectionReveal';
+
+/**
+ * About Section - Bio, education highlight, and animated stat counters
+ */
+
+const stats = [
+  { icon: FolderOpen, value: 15, suffix: '+', label: 'Projects Completed' },
+  { icon: Award, value: 8, suffix: '+', label: 'Certifications' },
+  { icon: Github, value: 500, suffix: '+', label: 'GitHub Contributions' },
+  { icon: BookOpen, value: 2, suffix: '', label: 'Years of Experience' },
+];
+
+// Animated counter component
+const AnimatedCounter = ({ value, suffix, inView }) => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(0);
+  const frameRef = useRef();
+
+  useEffect(() => {
+    if (!inView) return;
+
+    const duration = 2000; // 2 seconds
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Ease out cubic
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      countRef.current = Math.floor(easeOut * value);
+      setCount(countRef.current);
+
+      if (progress < 1) {
+        frameRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    frameRef.current = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(frameRef.current);
+  }, [inView, value]);
+
+  return (
+    <span className="tabular-nums">
+      {count}{suffix}
+    </span>
+  );
+};
+
+const About = () => {
+  const statsRef = useRef(null);
+  const statsInView = useInView(statsRef, { once: true, margin: '-100px' });
+
+  return (
+    <section id="about" className="relative py-24 lg:py-32">
+      <div className="max-w-7xl mx-auto section-padding">
+        {/* Section Header */}
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              About Me
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Who I <span className="text-gradient">Am</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto" />
+          </div>
+        </SectionReveal>
+
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Photo / Visual */}
+          <SectionReveal direction="left" delay={0.1}>
+            <div className="relative">
+              {/* Decorative elements */}
+              <div className="absolute -inset-4 bg-gradient-to-br from-accent-500/20 to-accent-700/10 rounded-3xl blur-2xl" />
+
+              {/* Photo placeholder */}
+              <div className="relative aspect-square max-w-md mx-auto lg:mx-0 rounded-2xl overflow-hidden 
+                              bg-gradient-to-br from-dark-800 to-dark-900 border border-dark-700/50
+                              flex items-center justify-center group">
+                <div className="text-center p-8">
+                  <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-accent-500/10 border-2 border-accent-500/30 
+                                  flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                    <span className="text-5xl font-bold text-accent-400">VK</span>
+                  </div>
+                  <p className="text-dark-400 text-sm">
+                    Add your photo here<br/>
+                    <span className="text-dark-500">Replace this div with an &lt;img&gt; tag</span>
+                  </p>
+                </div>
+
+                {/* Corner accent */}
+                <div className="absolute top-0 right-0 w-20 h-20 bg-accent-500/10 rounded-bl-full" />
+                <div className="absolute bottom-0 left-0 w-16 h-16 bg-accent-600/10 rounded-tr-full" />
+              </div>
+
+              {/* Floating badge */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+                className="absolute -bottom-4 -right-4 lg:right-8 glass rounded-xl px-4 py-3 
+                            border border-accent-500/20 shadow-xl"
+              >
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-sm font-medium text-dark-200">MCA Data Science</span>
+                </div>
+              </motion.div>
+            </div>
+          </SectionReveal>
+
+          {/* Bio Content */}
+          <div>
+            <SectionReveal delay={0.2}>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white mb-6">
+                Turning Complex Data into <span className="text-gradient">Clear Insights</span>
+              </h3>
+            </SectionReveal>
+
+            <SectionReveal delay={0.3}>
+              <div className="space-y-4 text-dark-300 leading-relaxed mb-8">
+                <p>
+                  I'm Varun Kumar, a passionate Data Analyst and MCA Data Science student 
+                  with a strong foundation in statistical analysis, machine learning, and data visualization. 
+                  I enjoy uncovering patterns in data and building predictive models that solve real-world problems.
+                </p>
+                <p>
+                  My journey in data science began with curiosity about how algorithms can learn from data. 
+                  Today, I work with Python, SQL, Power BI, and modern ML frameworks to transform raw data 
+                  into actionable business intelligence.
+                </p>
+                <p>
+                  When I'm not analyzing data, you'll find me exploring new ML research papers, 
+                  contributing to open-source projects, or mentoring peers in data science fundamentals.
+                </p>
+              </div>
+            </SectionReveal>
+
+            {/* Education Highlight */}
+            <SectionReveal delay={0.4}>
+              <div className="glass rounded-xl p-6 mb-8 border-l-4 border-accent-500">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent-500/10 flex items-center justify-center flex-shrink-0">
+                    <BookOpen className="text-accent-400" size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold text-white mb-1">Master of Computer Applications (MCA)</h4>
+                    <p className="text-accent-400 text-sm font-medium mb-1">Specialization: Data Science</p>
+                    <p className="text-dark-400 text-sm">[Your University Name] • 2023 – 2025</p>
+                  </div>
+                </div>
+              </div>
+            </SectionReveal>
+          </div>
+        </div>
+
+        {/* Stats Counter */}
+        <div ref={statsRef} className="mt-20">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+            {stats.map((stat, index) => (
+              <SectionReveal key={stat.label} delay={0.1 * index}>
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  className="glass rounded-2xl p-6 text-center border border-dark-700/50 
+                             hover:border-accent-500/20 transition-all duration-300"
+                >
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-accent-500/10 
+                                  flex items-center justify-center">
+                    <stat.icon className="text-accent-400" size={24} />
+                  </div>
+                  <div className="text-3xl lg:text-4xl font-bold text-white mb-1">
+                    <AnimatedCounter 
+                      value={stat.value} 
+                      suffix={stat.suffix} 
+                      inView={statsInView} 
+                    />
+                  </div>
+                  <div className="text-sm text-dark-400">{stat.label}</div>
+                </motion.div>
+              </SectionReveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
+
+
+================================================================================
+  FILE: src/components/Skills.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  BarChart3, Code2, Brain, Wrench, 
+  Spreadsheet, Database, PieChart, LayoutDashboard, Filter, TrendingUp,
+  Terminal, BarChart, Braces, FileCode, Command,
+  Cog, Table, Grid3X3, Layers, Flame, Zap,
+  BookOpen, GitBranch, Code, Cloud, Box, Container
+} from 'lucide-react';
+import { skillCategories } from '../data/skills';
+import SectionReveal from './SectionReveal';
+
+/**
+ * Skills Section - Categorized skill grid with icons and hover interactions
+ * No boring progress bars — visual cards with level indicators
+ */
+
+// Icon mapping
+const iconMap = {
+  BarChart3, Code2, Brain, Wrench,
+  Spreadsheet, Database, PieChart, LayoutDashboard, Filter, TrendingUp,
+  Terminal, BarChart, Braces, FileCode, Command,
+  Cog, Table, Grid3X3, Layers, Flame, Zap,
+  BookOpen, GitBranch, Code, Cloud, Box, Container
+};
+
+const levelColors = {
+  'Advanced': 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  'Intermediate': 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+  'Beginner': 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+};
+
+const levelDots = {
+  'Advanced': 3,
+  'Intermediate': 2,
+  'Beginner': 1,
+};
+
+const Skills = () => {
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  const filteredCategories = activeCategory === 'all' 
+    ? skillCategories 
+    : skillCategories.filter(cat => cat.id === activeCategory);
+
+  return (
+    <section id="skills" className="relative py-24 lg:py-32">
+      {/* Background accent */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-accent-600/5 rounded-full blur-3xl -translate-y-1/2" />
+
+      <div className="relative max-w-7xl mx-auto section-padding">
+        {/* Section Header */}
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              My Expertise
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Skills & <span className="text-gradient">Technologies</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto mb-6" />
+            <p className="text-dark-400 max-w-2xl mx-auto">
+              A comprehensive toolkit built through coursework, projects, and hands-on experience 
+              in data science and analytics.
+            </p>
+          </div>
+        </SectionReveal>
+
+        {/* Category Filter */}
+        <SectionReveal delay={0.1}>
+          <div className="flex flex-wrap justify-center gap-2 mb-12">
+            <button
+              onClick={() => setActiveCategory('all')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                ${activeCategory === 'all'
+                  ? 'bg-accent-600 text-white shadow-lg shadow-accent-600/20'
+                  : 'bg-dark-800 text-dark-400 hover:text-white hover:bg-dark-700'
+                }`}
+            >
+              All Skills
+            </button>
+            {skillCategories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+                  ${activeCategory === cat.id
+                    ? 'bg-accent-600 text-white shadow-lg shadow-accent-600/20'
+                    : 'bg-dark-800 text-dark-400 hover:text-white hover:bg-dark-700'
+                  }`}
+              >
+                {cat.title}
+              </button>
+            ))}
+          </div>
+        </SectionReveal>
+
+        {/* Skills Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeCategory}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="grid md:grid-cols-2 gap-6"
+          >
+            {filteredCategories.map((category, catIndex) => {
+              const CategoryIcon = iconMap[category.icon] || Code2;
+
+              return (
+                <SectionReveal key={category.id} delay={catIndex * 0.1}>
+                  <div className="glass rounded-2xl p-6 lg:p-8 border border-dark-700/50 
+                                  hover:border-accent-500/20 transition-all duration-500">
+                    {/* Category Header */}
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-12 h-12 rounded-xl bg-accent-500/10 border border-accent-500/20 
+                                      flex items-center justify-center">
+                        <CategoryIcon className="text-accent-400" size={24} />
+                      </div>
+                      <div>
+                        <h3 className="text-xl font-bold text-white">{category.title}</h3>
+                        <p className="text-sm text-dark-400">{category.description}</p>
+                      </div>
+                    </div>
+
+                    {/* Skills List */}
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {category.skills.map((skill, skillIndex) => {
+                        const SkillIcon = iconMap[skill.icon] || Code2;
+
+                        return (
+                          <motion.div
+                            key={skill.name}
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: skillIndex * 0.05 }}
+                            whileHover={{ scale: 1.05, y: -2 }}
+                            className="group relative p-3 rounded-xl bg-dark-800/50 border border-dark-700/30 
+                                       hover:border-accent-500/30 hover:bg-accent-500/5 
+                                       transition-all duration-300 cursor-default"
+                          >
+                            <div className="flex items-center gap-2 mb-2">
+                              <SkillIcon size={16} className="text-dark-400 group-hover:text-accent-400 transition-colors" />
+                              <span className="text-sm font-medium text-dark-200 group-hover:text-white transition-colors">
+                                {skill.name}
+                              </span>
+                            </div>
+
+                            {/* Level indicator */}
+                            <div className="flex items-center gap-1">
+                              {[...Array(3)].map((_, i) => (
+                                <div
+                                  key={i}
+                                  className={`h-1.5 rounded-full transition-all duration-300
+                                    ${i < levelDots[skill.level]
+                                      ? 'bg-accent-500 w-4'
+                                      : 'bg-dark-700 w-4'
+                                    }`}
+                                />
+                              ))}
+                              <span className={`ml-1.5 text-[10px] font-medium px-1.5 py-0.5 rounded 
+                                               border ${levelColors[skill.level]}`}>
+                                {skill.level}
+                              </span>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </SectionReveal>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+};
+
+export default Skills;
+
+
+================================================================================
+  FILE: src/components/Projects.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ExternalLink, Github, Star, ArrowUpRight, Filter } from 'lucide-react';
+import { projects, projectCategories } from '../data/projects';
+import SectionReveal from './SectionReveal';
+
+/**
+ * Projects Section - Filterable grid with featured case study
+ * Projects data is imported from data/projects.js for easy editing
+ */
+
+const Projects = () => {
+  const [activeFilter, setActiveFilter] = useState('all');
+
+  const filteredProjects = activeFilter === 'all'
+    ? projects
+    : projects.filter(p => p.category === activeFilter);
+
+  const featuredProject = projects.find(p => p.featured);
+  const regularProjects = filteredProjects.filter(p => !p.featured || activeFilter !== 'all');
+
+  return (
+    <section id="projects" className="relative py-24 lg:py-32">
+      <div className="max-w-7xl mx-auto section-padding">
+        {/* Section Header */}
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              Portfolio
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Featured <span className="text-gradient">Projects</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto mb-6" />
+            <p className="text-dark-400 max-w-2xl mx-auto">
+              A selection of my best work in data analysis, machine learning, and web development.
+              Each project represents a unique challenge and learning opportunity.
+            </p>
+          </div>
+        </SectionReveal>
+
+        {/* Filter Buttons */}
+        <SectionReveal delay={0.1}>
+          <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {projectCategories.map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => setActiveFilter(cat.id)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center gap-2
+                  ${activeFilter === cat.id
+                    ? 'bg-accent-600 text-white shadow-lg shadow-accent-600/20'
+                    : 'bg-dark-800 text-dark-400 hover:text-white hover:bg-dark-700'
+                  }`}
+              >
+                {cat.id === 'all' && <Filter size={14} />}
+                {cat.label}
+              </button>
+            ))}
+          </div>
+        </SectionReveal>
+
+        {/* Featured Project (Netflix) - Only show when 'all' or 'data-analysis' is selected */}
+        <AnimatePresence>
+          {featuredProject && (activeFilter === 'all' || activeFilter === featuredProject.category) && (
+            <SectionReveal>
+              <motion.div
+                layout
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -30 }}
+                className="mb-12"
+              >
+                <div className="glass rounded-2xl overflow-hidden border border-accent-500/20 
+                                hover:border-accent-500/40 transition-all duration-500 group">
+                  <div className="grid lg:grid-cols-2">
+                    {/* Image/Thumbnail */}
+                    <div className="relative h-64 lg:h-auto bg-gradient-to-br from-red-900/30 to-dark-900 
+                                    flex items-center justify-center overflow-hidden">
+                      <div className="absolute inset-0 bg-[url('/project-thumbnails/netflix.jpg')] bg-cover bg-center opacity-30" />
+                      <div className="relative z-10 text-center p-8">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl bg-red-600/20 border border-red-500/30 
+                                        flex items-center justify-center">
+                          <span className="text-3xl">🎬</span>
+                        </div>
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full 
+                                         bg-red-500/20 text-red-400 text-xs font-medium border border-red-500/20">
+                          <Star size={12} fill="currentColor" />
+                          Featured Case Study
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Content */}
+                    <div className="p-8 lg:p-10">
+                      <h3 className="text-2xl lg:text-3xl font-bold text-white mb-3 group-hover:text-accent-300 transition-colors">
+                        {featuredProject.title}
+                      </h3>
+                      <p className="text-dark-300 leading-relaxed mb-6">
+                        {featuredProject.description}
+                      </p>
+
+                      {/* Stats */}
+                      <div className="grid grid-cols-3 gap-4 mb-6">
+                        {Object.entries(featuredProject.stats || {}).map(([key, value]) => (
+                          <div key={key} className="text-center p-3 rounded-lg bg-dark-800/50">
+                            <div className="text-lg font-bold text-accent-400">{value}</div>
+                            <div className="text-xs text-dark-500 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex flex-wrap gap-2 mb-6">
+                        {featuredProject.tags.map(tag => (
+                          <span key={tag} className="px-3 py-1 rounded-full text-xs font-medium 
+                                                     bg-accent-500/10 text-accent-400 border border-accent-500/20">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-3">
+                        <a
+                          href={featuredProject.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-primary flex items-center gap-2 text-sm"
+                        >
+                          <Github size={16} />
+                          View Code
+                        </a>
+                        {featuredProject.liveUrl && (
+                          <a
+                            href={featuredProject.liveUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn-outline flex items-center gap-2 text-sm"
+                          >
+                            <ExternalLink size={16} />
+                            Live Demo
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </SectionReveal>
+          )}
+        </AnimatePresence>
+
+        {/* Regular Projects Grid */}
+        <motion.div 
+          layout
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <AnimatePresence>
+            {regularProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3, delay: index * 0.05 }}
+              >
+                <div className="glass rounded-2xl overflow-hidden h-full card-hover group">
+                  {/* Thumbnail */}
+                  <div className="relative h-48 bg-gradient-to-br from-dark-800 to-dark-900 
+                                  flex items-center justify-center overflow-hidden">
+                    <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] 
+                                    from-accent-500/20 to-transparent" />
+                    <span className="text-4xl opacity-50 group-hover:scale-110 transition-transform duration-500">
+                      {project.category === 'data-analysis' ? '📊' : 
+                       project.category === 'machine-learning' ? '🤖' : '💻'}
+                    </span>
+
+                    {/* Hover overlay */}
+                    <div className="absolute inset-0 bg-accent-950/80 opacity-0 group-hover:opacity-100 
+                                    transition-opacity duration-300 flex items-center justify-center gap-3">
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center
+                                   text-white hover:bg-accent-500 hover:scale-110 transition-all duration-300"
+                        aria-label="View GitHub"
+                      >
+                        <Github size={18} />
+                      </a>
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="w-10 h-10 rounded-full bg-white/10 backdrop-blur flex items-center justify-center
+                                     text-white hover:bg-accent-500 hover:scale-110 transition-all duration-300"
+                          aria-label="View Live Demo"
+                        >
+                          <ArrowUpRight size={18} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent-300 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-dark-400 leading-relaxed mb-4 line-clamp-3">
+                      {project.description}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                      {project.tags.slice(0, 3).map(tag => (
+                        <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-medium 
+                                                   bg-dark-800 text-dark-400 border border-dark-700">
+                          {tag}
+                        </span>
+                      ))}
+                      {project.tags.length > 3 && (
+                        <span className="px-2 py-0.5 rounded text-[10px] font-medium text-dark-500">
+                          +{project.tags.length - 3}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Links */}
+                    <div className="flex gap-3">
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-dark-400 hover:text-accent-400 transition-colors 
+                                   flex items-center gap-1"
+                      >
+                        <Github size={14} />
+                        Code
+                      </a>
+                      {project.liveUrl && (
+                        <a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-sm text-dark-400 hover:text-accent-400 transition-colors 
+                                     flex items-center gap-1"
+                        >
+                          <ExternalLink size={14} />
+                          Demo
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
+
+
+================================================================================
+  FILE: src/components/GitHubActivity.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { Github, GitFork, Star, Users } from 'lucide-react';
+import { fetchGitHubStats, getGitHubStatsUrls } from '../services/api';
+import SectionReveal from './SectionReveal';
+
+/**
+ * GitHub Activity Section - Stats cards and contribution graph placeholders
+ * Ready for github-readme-stats or GitHub API integration
+ */
+
+const GitHubActivity = () => {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const data = await fetchGitHubStats();
+        setStats(data);
+      } catch (error) {
+        console.error('Failed to load GitHub stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadStats();
+  }, []);
+
+  const imageUrls = getGitHubStatsUrls();
+
+  const statCards = [
+    { label: 'Repositories', value: stats?.public_repos ?? '--', icon: Github },
+    { label: 'Followers', value: stats?.followers ?? '--', icon: Users },
+    { label: 'Following', value: stats?.following ?? '--', icon: Users },
+    { label: 'Gists', value: stats?.public_gists ?? '--', icon: GitFork },
+  ];
+
+  return (
+    <section id="github" className="relative py-24 lg:py-32 bg-dark-900/30">
+      <div className="max-w-7xl mx-auto section-padding">
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              Open Source
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              GitHub <span className="text-gradient">Activity</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto mb-6" />
+            <p className="text-dark-400 max-w-2xl mx-auto">
+              My open source contributions and coding activity. 
+              Replace placeholder images with your real GitHub stats.
+            </p>
+          </div>
+        </SectionReveal>
+
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {statCards.map((stat, index) => (
+            <SectionReveal key={stat.label} delay={index * 0.1}>
+              <motion.div
+                whileHover={{ y: -4 }}
+                className="glass rounded-2xl p-6 text-center border border-dark-700/50 
+                           hover:border-accent-500/20 transition-all duration-300"
+              >
+                <div className="w-10 h-10 mx-auto mb-3 rounded-lg bg-accent-500/10 
+                                flex items-center justify-center">
+                  <stat.icon className="text-accent-400" size={20} />
+                </div>
+                <div className="text-2xl font-bold text-white mb-1">
+                  {loading ? (
+                    <div className="w-12 h-8 bg-dark-700 rounded animate-pulse mx-auto" />
+                  ) : (
+                    stat.value
+                  )}
+                </div>
+                <div className="text-sm text-dark-400">{stat.label}</div>
+              </motion.div>
+            </SectionReveal>
+          ))}
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <SectionReveal delay={0.1}>
+            <div className="glass rounded-2xl p-4 border border-dark-700/50 overflow-hidden">
+              <h3 className="text-sm font-medium text-dark-300 mb-4 px-2">GitHub Stats</h3>
+              <img 
+                src={imageUrls.statsCard} 
+                alt="GitHub Stats" 
+                className="w-full rounded-lg"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div className="hidden h-32 bg-dark-800 rounded-lg items-center justify-center text-dark-500 text-sm">
+                Add VITE_GITHUB_USERNAME to .env to load real stats
+              </div>
+            </div>
+          </SectionReveal>
+
+          <SectionReveal delay={0.2}>
+            <div className="glass rounded-2xl p-4 border border-dark-700/50 overflow-hidden">
+              <h3 className="text-sm font-medium text-dark-300 mb-4 px-2">Top Languages</h3>
+              <img 
+                src={imageUrls.topLanguages} 
+                alt="Top Languages" 
+                className="w-full rounded-lg"
+                onError={(e) => {
+                  e.target.style.display = 'none';
+                  e.target.nextSibling.style.display = 'flex';
+                }}
+              />
+              <div className="hidden h-32 bg-dark-800 rounded-lg items-center justify-center text-dark-500 text-sm">
+                Add VITE_GITHUB_USERNAME to .env to load real stats
+              </div>
+            </div>
+          </SectionReveal>
+        </div>
+
+        <SectionReveal delay={0.3}>
+          <div className="mt-6 glass rounded-2xl p-4 border border-dark-700/50 overflow-hidden">
+            <h3 className="text-sm font-medium text-dark-300 mb-4 px-2">Contribution Graph</h3>
+            <img 
+              src={imageUrls.contributionGraph} 
+              alt="Contribution Graph" 
+              className="w-full rounded-lg"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'flex';
+              }}
+            />
+            <div className="hidden h-48 bg-dark-800 rounded-lg items-center justify-center text-dark-500 text-sm">
+              Add VITE_GITHUB_USERNAME to .env to load real contribution graph
+            </div>
+          </div>
+        </SectionReveal>
+      </div>
+    </section>
+  );
+};
+
+export default GitHubActivity;
+
+
+================================================================================
+  FILE: src/components/Experience.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { motion } from 'framer-motion';
+import { Briefcase, GraduationCap, Award, Trophy } from 'lucide-react';
+import { timelineEvents } from '../data/timeline';
+import SectionReveal from './SectionReveal';
+
+/**
+ * Experience & Education Timeline - Vertical animated timeline
+ */
+
+const typeConfig = {
+  education: { icon: GraduationCap, color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
+  internship: { icon: Briefcase, color: 'bg-accent-500/20 text-accent-400 border-accent-500/30' },
+  certification: { icon: Award, color: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
+  achievement: { icon: Trophy, color: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
+};
+
+const Experience = () => {
+  return (
+    <section id="experience" className="relative py-24 lg:py-32">
+      <div className="max-w-5xl mx-auto section-padding">
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              Journey
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Experience & <span className="text-gradient">Education</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto" />
+          </div>
+        </SectionReveal>
+
+        <div className="relative">
+          <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b 
+                          from-accent-500/50 via-accent-500/20 to-transparent md:-translate-x-px" />
+
+          <div className="space-y-12">
+            {timelineEvents.map((event, index) => {
+              const config = typeConfig[event.type];
+              const Icon = config.icon;
+              const isLeft = index % 2 === 0;
+
+              return (
+                <SectionReveal key={event.id} delay={index * 0.1}>
+                  <div className={`relative flex items-start md:items-center 
+                                   ${isLeft ? 'md:flex-row' : 'md:flex-row-reverse'}`}>
+
+                    <div className="absolute left-4 md:left-1/2 w-3 h-3 rounded-full bg-accent-500 
+                                    shadow-lg shadow-accent-500/30 md:-translate-x-1.5 mt-6 md:mt-0 z-10" />
+
+                    <div className={`ml-12 md:ml-0 md:w-1/2 ${isLeft ? 'md:pr-12' : 'md:pl-12'}`}>
+                      <motion.div
+                        whileHover={{ y: -4 }}
+                        className="glass rounded-2xl p-6 border border-dark-700/50 
+                                   hover:border-accent-500/20 transition-all duration-300"
+                      >
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center 
+                                          border ${config.color}`}>
+                            <Icon size={20} />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex flex-wrap items-center gap-2 mb-1">
+                              <h3 className="text-lg font-bold text-white">{event.title}</h3>
+                              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full 
+                                               border uppercase tracking-wider ${config.color}`}>
+                                {event.type}
+                              </span>
+                            </div>
+                            <p className="text-accent-400 text-sm font-medium">{event.organization}</p>
+                            <p className="text-dark-500 text-xs mt-0.5">{event.date} • {event.location}</p>
+                          </div>
+                        </div>
+
+                        <p className="text-dark-300 text-sm leading-relaxed mb-4">
+                          {event.description}
+                        </p>
+
+                        {event.highlights && event.highlights.length > 0 && (
+                          <ul className="space-y-1.5">
+                            {event.highlights.map((highlight, i) => (
+                              <li key={i} className="flex items-start gap-2 text-sm text-dark-400">
+                                <span className="w-1 h-1 rounded-full bg-accent-500 mt-2 flex-shrink-0" />
+                                {highlight}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </motion.div>
+                    </div>
+
+                    <div className="hidden md:block md:w-1/2" />
+                  </div>
+                </SectionReveal>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Experience;
+
+
+================================================================================
+  FILE: src/components/Certifications.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { motion } from 'framer-motion';
+import { Award, ExternalLink } from 'lucide-react';
+import { certifications } from '../data/certifications';
+import SectionReveal from './SectionReveal';
+
+/**
+ * Certifications Section - Grid of certificate cards with verify links
+ */
+
+const Certifications = () => {
+  return (
+    <section id="certifications" className="relative py-24 lg:py-32 bg-dark-900/30">
+      <div className="max-w-7xl mx-auto section-padding">
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              Credentials
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              <span className="text-gradient">Certifications</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto mb-6" />
+            <p className="text-dark-400 max-w-2xl mx-auto">
+              Professional certifications and courses that validate my expertise 
+              in data science, analytics, and machine learning.
+            </p>
+          </div>
+        </SectionReveal>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {certifications.map((cert, index) => (
+            <SectionReveal key={cert.id} delay={index * 0.1}>
+              <motion.div
+                whileHover={{ y: -6 }}
+                className="glass rounded-2xl p-6 h-full border border-dark-700/50 
+                           hover:border-accent-500/20 transition-all duration-300 
+                           flex flex-col group"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent-500/10 border border-accent-500/20 
+                                  flex items-center justify-center group-hover:bg-accent-500/20 
+                                  transition-colors duration-300">
+                    <Award className="text-accent-400" size={24} />
+                  </div>
+                  <span className="text-xs font-medium text-dark-500 bg-dark-800 px-2 py-1 rounded-lg">
+                    {cert.date}
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-accent-300 
+                               transition-colors leading-snug">
+                  {cert.title}
+                </h3>
+
+                <div className="flex items-center gap-2 text-sm text-dark-400 mb-4">
+                  <span>{cert.issuer}</span>
+                  <span className="text-dark-600">•</span>
+                  <span>{cert.platform}</span>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 mb-6 mt-auto">
+                  {cert.skills.map(skill => (
+                    <span key={skill} className="px-2 py-0.5 rounded text-[11px] font-medium 
+                                               bg-dark-800 text-dark-400 border border-dark-700">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                <a
+                  href={cert.verifyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-accent-400 
+                             hover:text-accent-300 transition-colors group/link"
+                >
+                  <ExternalLink size={14} />
+                  <span>Verify Credential</span>
+                  <span className="text-[10px] text-dark-500 font-mono ml-auto">
+                    {cert.credentialId}
+                  </span>
+                </a>
+              </motion.div>
+            </SectionReveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Certifications;
+
+
+================================================================================
+  FILE: src/components/Contact.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Send, Mail, MessageCircle, Linkedin, Github, Loader2 } from 'lucide-react';
+import { submitContactForm } from '../services/api';
+import SectionReveal from './SectionReveal';
+
+/**
+ * Contact Section - Form with placeholder API integration
+ * WhatsApp button, email display, and social links
+ */
+
+const WHATSAPP_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || '916200050859';
+const WHATSAPP_MESSAGE = 'Hi, I saw your portfolio and would like to connect!';
+const LINKEDIN_URL = import.meta.env.VITE_LINKEDIN_URL || 'https://linkedin.com/in/[your-profile]';
+const GITHUB_URL = import.meta.env.VITE_GITHUB_URL || 'https://github.com/[your-username]';
+
+const Contact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const result = await submitContactForm(formData);
+      setSubmitStatus({ type: 'success', message: result.message });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Something went wrong. Please try again or contact me directly via email.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <section id="contact" className="relative py-24 lg:py-32">
+      <div className="max-w-7xl mx-auto section-padding">
+        <SectionReveal>
+          <div className="text-center mb-16">
+            <span className="text-accent-400 text-sm font-semibold tracking-wider uppercase mb-2 block">
+              Get In Touch
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4">
+              Let&apos;s <span className="text-gradient">Connect</span>
+            </h2>
+            <div className="w-20 h-1 bg-accent-500 rounded-full mx-auto mb-6" />
+            <p className="text-dark-400 max-w-2xl mx-auto">
+              Have a project in mind or want to collaborate? I&apos;m always open to discussing 
+              data science, machine learning, or analytics opportunities.
+            </p>
+          </div>
+        </SectionReveal>
+
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
+          <div className="lg:col-span-2 space-y-8">
+            <SectionReveal delay={0.1}>
+              <div className="space-y-6">
+                <div className="glass rounded-2xl p-6 border border-dark-700/50">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-accent-500/10 flex items-center justify-center">
+                      <Mail className="text-accent-400" size={20} />
+                    </div>
+                    <div>
+                      <p className="text-sm text-dark-400 mb-0.5">Email</p>
+                      <a href="mailto:varunntech@gmail.com" 
+                         className="text-white font-medium hover:text-accent-400 transition-colors">
+                        varunntech@gmail.com
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="glass rounded-2xl p-6 border border-dark-700/50">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                      <MessageCircle className="text-emerald-400" size={20} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm text-dark-400 mb-0.5">WhatsApp</p>
+                      <p className="text-white font-medium">+91 62000 50859</p>
+                    </div>
+                  </div>
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-4 w-full py-2.5 rounded-lg bg-emerald-600/20 text-emerald-400 
+                               border border-emerald-600/30 text-sm font-medium text-center block
+                               hover:bg-emerald-600/30 transition-colors"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <MessageCircle size={16} />
+                      Chat with me
+                    </span>
+                  </a>
+                </div>
+
+                <div className="glass rounded-2xl p-6 border border-dark-700/50">
+                  <p className="text-sm text-dark-400 mb-4">Social Profiles</p>
+                  <div className="flex gap-3">
+                    <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer"
+                       className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center 
+                                  text-dark-400 hover:text-white hover:bg-dark-700 transition-all">
+                      <Github size={18} />
+                    </a>
+                    <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer"
+                       className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center 
+                                  text-dark-400 hover:text-white hover:bg-dark-700 transition-all">
+                      <Linkedin size={18} />
+                    </a>
+                    <a href="mailto:varunntech@gmail.com"
+                       className="w-10 h-10 rounded-lg bg-dark-800 flex items-center justify-center 
+                                  text-dark-400 hover:text-white hover:bg-dark-700 transition-all">
+                      <Mail size={18} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </SectionReveal>
+          </div>
+
+          <div className="lg:col-span-3">
+            <SectionReveal delay={0.2}>
+              <div className="glass rounded-2xl p-6 lg:p-8 border border-dark-700/50">
+                <h3 className="text-xl font-bold text-white mb-6">Send a Message</h3>
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-dark-300 mb-2">
+                        Your Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-dark-700 
+                                   text-white placeholder-dark-500 focus:outline-none focus:border-accent-500/50 
+                                   focus:ring-1 focus:ring-accent-500/50 transition-all"
+                        placeholder="John Doe"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className="block text-sm font-medium text-dark-300 mb-2">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-dark-700 
+                                   text-white placeholder-dark-500 focus:outline-none focus:border-accent-500/50 
+                                   focus:ring-1 focus:ring-accent-500/50 transition-all"
+                        placeholder="john@example.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-dark-300 mb-2">
+                      Message
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      rows={5}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 rounded-xl bg-dark-800/50 border border-dark-700 
+                                 text-white placeholder-dark-500 focus:outline-none focus:border-accent-500/50 
+                                 focus:ring-1 focus:ring-accent-500/50 transition-all resize-none"
+                      placeholder="Tell me about your project or opportunity..."
+                    />
+                  </div>
+
+                  {submitStatus && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className={`p-4 rounded-xl text-sm ${
+                        submitStatus.type === 'success' 
+                          ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' 
+                          : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                      }`}
+                    >
+                      {submitStatus.message}
+                    </motion.div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full sm:w-auto btn-primary flex items-center justify-center gap-2 
+                               disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={18} className="animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={18} />
+                        Send Message
+                      </>
+                    )}
+                  </button>
+                </form>
+
+                <p className="mt-4 text-xs text-dark-500">
+                  * Form connected to placeholder API in <code className="text-accent-400">services/api.js</code>. 
+                  Wire in your backend when ready.
+                </p>
+              </div>
+            </SectionReveal>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Contact;
+
+
+================================================================================
+  FILE: src/components/Footer.jsx
+  SECTION: COMPONENTS
+================================================================================
+
+import { Heart } from 'lucide-react';
+
+/**
+ * Footer - Simple, clean footer with attribution
+ */
+
+const Footer = () => {
+  const currentYear = new Date().getFullYear();
+
+  return (
+    <footer className="border-t border-dark-800/50 py-8 bg-dark-950">
+      <div className="max-w-7xl mx-auto section-padding">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-sm text-dark-400">
+            <span className="font-bold text-white">VK</span>
+            <span>•</span>
+            <span>Varun Kumar</span>
+          </div>
+
+          <p className="text-sm text-dark-500 flex items-center gap-1">
+            Built with <Heart size={14} className="text-red-500 fill-red-500" /> using React & Tailwind
+          </p>
+
+          <p className="text-sm text-dark-500">
+            © {currentYear} All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
+
+
+================================================================================
+  FILE: src/App.jsx
+  SECTION: APP
+================================================================================
+
+import { useEffect } from 'react';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import About from './components/About';
+import Skills from './components/Skills';
+import Projects from './components/Projects';
+import GitHubActivity from './components/GitHubActivity';
+import Experience from './components/Experience';
+import Certifications from './components/Certifications';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
+
+/**
+ * App - Main portfolio application
+ * 
+ * Component structure is modular — each section is self-contained.
+ * To add backend integration later:
+ * 1. Update services/api.js with real API calls
+ * 2. Add React Query or SWR for data fetching (optional)
+ * 3. Replace placeholder data in src/data/ files with API calls
+ */
+
+function App() {
+  // Initialize dark mode class on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (saved === 'dark' || (!saved && prefersDark)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-dark-950 text-dark-100 transition-colors duration-300">
+      <Navbar />
+
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <GitHubActivity />
+        <Experience />
+        <Certifications />
+        <Contact />
+      </main>
+
+      <Footer />
+      <ScrollToTop />
+    </div>
+  );
+}
+
+export default App;
+
